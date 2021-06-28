@@ -1,0 +1,48 @@
+<main role="main" class="container">
+    <h3 class="text-center">Rekapitulasi Data Covid</h3><br/>
+    <table class="table table-bordered text-center">
+      <thead>
+        <tr>
+          <th scope="col">Tanggal</th>
+          <th scope="col">Jumlah Pasien Positif</th>
+          <th scope="col">Jumlah Pasien Dirawat</th>
+          <th scope="col">Jumlah Pasien Sembuh</th>
+          <th scope="col">Jumlah Pasien Meninggal</th>
+          <th scope="col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% let totalAll = {positif:0, dirawat:0, sembuh:0, meninggal:0, total: 0}%>
+
+        <% data.forEach((val) => { %>
+          <% let totalPerTanggal = val.Positif + val.Dirawat + val.Sembuh + val.Meninggal%>
+          
+          <tr>
+            <th scope="row"><%= val.tanggal%></th>
+            <td><%= val.Positif %></td>
+            <td><%= val.Dirawat %></td>
+            <td><%= val.Sembuh %></td>
+            <td><%= val.Meninggal %></td>
+            <td><%= totalPerTanggal %></td>
+          </tr>
+
+          <% totalAll.positif += val.Positif %>
+          <% totalAll.dirawat += val.Dirawat %>
+          <% totalAll.sembuh += val.Sembuh %>
+          <% totalAll.meninggal += val.Meninggal %>
+          <% totalAll.total += totalPerTanggal %>
+
+        <% }); %>
+
+        <tr>
+          <th scope="row">Total</th>
+          <td><%= totalAll.positif %></td>
+          <td><%= totalAll.dirawat %></td>
+          <td><%= totalAll.sembuh %></td>
+          <td><%= totalAll.meninggal %></td>
+          <td><%= totalAll.total %></td>
+        </tr>
+        
+      </tbody>
+    </table>
+</main>

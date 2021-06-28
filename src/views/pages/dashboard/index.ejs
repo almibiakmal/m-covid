@@ -1,0 +1,146 @@
+<main role="main" class="container">
+    <div class="jumbotron">
+      <h1>MONITORING COVID-19</h1>
+      <p class="lead">Visualisasi data pasien covid 19 dapat dilihat pada grafik berikut.</p>
+    </div>
+    <div style="width: 100%; border: 1px solid #CCC;">
+      <canvas id="grafik-satu" width="600" height="200"></canvas>
+      <div class="chartBawah">
+        <canvas id="grafik-dua"></canvas>
+      </div>
+      <div class="chartBawah">
+        <canvas id="grafik-tiga"></canvas>
+      </div>
+    </div>
+    <br/><br/>
+</main>
+
+<script src="<%=url%>/assets/js/chart.min.js"></script>
+<script>
+  let grafikSatu = document.getElementById('grafik-satu');
+  let grafikDua = document.getElementById('grafik-dua');
+  let grafikTiga = document.getElementById('grafik-tiga');
+  
+  axios.get("<%=url%>/dashboard/get")
+  .catch(err => console.log(err))
+  .then(result => {
+    let data = result.data.data;
+
+    new Chart(grafikSatu, {
+      type: 'line',
+      data: {
+          labels: data.grafikSatu.label,
+          datasets: [{
+              label: 'Jumlah Pasien Positif Covid',
+              data: data.grafikSatu.data,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Grafik 1',
+                position: 'top',
+                align: 'start'
+            }
+        },
+          responsive: true,
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+    });
+
+    new Chart(grafikDua, {
+        type: 'pie',
+        data: {
+            labels: data.grafikDua.label,
+            datasets: [{
+                data: data.grafikDua.data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+          plugins: {
+            title: {
+                  display: true,
+                  text: 'Grafik 2',
+                  position: 'top',
+                  align: 'start'
+              }
+          },
+            responsive: true
+        }
+    });
+    
+
+    new Chart(grafikTiga, {
+        type: 'pie',
+        data: {
+            labels: data.grafikTiga.label,
+            datasets: [{
+                data: data.grafikTiga.data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+          plugins: {
+            title: {
+                  display: true,
+                  text: 'Grafik 3',
+                  position: 'top',
+                  align: 'start'
+              }
+          },
+          responsive: true,
+        }
+    });
+  });
+  </script>

@@ -1,0 +1,27 @@
+STANDART WEB
+
+{host:port}/{group}/{endpoin}
+Example: http://localhost:3000/pasien
+
+KODE STATUS
+200 - OK                        --> Call API Success
+201 - CREATE                    --> Post Success
+400 - BAD REQUEST               --> Error on client side (bisa salah input, dll)
+401 - UNAUTHORIZED              --> User not authorized to the REQUEST
+403 - FORBIDEN                  --> User not allowed to access
+500 - INTERNAL SERVER ERROR     --> Error on server side
+502 - BAD GATEWAY               --> Invalid response from another request
+
+GROUP pasien
+[Done]   [1] - GET       /           --> Get all data pasien
+[Done]   [2] - POST      /           --> Search data
+[Done]   [3] - POST      /create     --> Create data pasien
+[Done]   [4] - POST      /detail     --> Get data pasien by id for form edit
+[Done]   [5] - PUT       /update     --> Update data pasien
+[Done]   [6] - DELETE    /delete     --> Delete data pasien
+
+GROUP dashboard
+[Done]   [1] - GET       /           --> Get info grafis
+
+GROUP report
+[Done]   [1] - GET       /           --> Display tabel report

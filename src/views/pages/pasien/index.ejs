@@ -1,0 +1,131 @@
+<main role="main" class="container">
+  <div class="jumbotron">
+    <!-- <h1>Navbar example</h1>
+    <p class="lead">This example is a quick exercise to illustrate how fixed to top navbar works. As you scroll, it will remain fixed to the top of your browser's viewport.</p>
+    <a class="btn btn-lg btn-primary" href="../../components/navbar/" role="button">View navbar docs &raquo;</a> -->
+    <form method="POST" action="/pasien">
+      <div class="form-group row">
+        <label for="status" class="col-sm-2 col-form-label">Status</label>
+        <div class="col-sm-10 col-lg-8">
+          <select name="status" id="status" class="form-control" aria-describedby="statusHelpInline">
+            <option value="">Pilih</option>
+            <% let tempStatus = ['Dirawat', 'Sembuh', 'Meninggal']; %>
+            <% tempStatus.forEach((val) => { %>
+              <option value="<%= val; %>" <%= (val == status) ? "selected" : ""; %>> <%= val %> </option>
+            <%})%>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="usia" class="col-sm-2 col-form-label">Usia</label>
+        <div class="col-sm-10 col-lg-8">
+          <input type="number" name="usia" id="usia" class="form-control" <%- (usia != "" || usia != 0) ? "value = '" + usia + "'" : ""; %>>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="tanggal" class="col-sm-2 col-form-label">Tanggal</label>
+        <div class="col-lg-4 col-sm-3">
+          <input type="date" name="tglMulai" id="tglMulai" class="form-control" <%- (tglMulai != "") ? "value = '" + tglMulai + "'" : ""; %>>
+        </div>
+        <div class="col-lg-4 col-sm-3">
+          <input type="date" name="tglSelesai" id="tglSelesai" class="form-control" <%- (tglSelesai != "") ? "value = '" + tglSelesai + "'" : ""; %>>
+        </div>
+        <div class="col-lg-2 col-sm-2">
+          <input class="btn btn-success" type="submit" id="cariData" value="Cari Data">
+        </div>
+      </div>
+    </form>
+
+    <div class="form-group row">
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <button class="btn btn-primary" id="cariData" onclick="showForm()">Tambah Data</button>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <a class="btn btn-secondary" href="/report" target="_blank">Download Rekap Data</a>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-bordered text-center">
+    <thead>
+      <tr>
+        <th scope="col">Tanggal</th>
+        <th scope="col">Nomor Pasien</th>
+        <th scope="col">Usia (th)</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% data.forEach((val) => { %>
+        <tr>
+          <td><%= val.tanggal %></td>
+          <td><%= val.nomor_pasien %></td>
+          <td><%= val.usia %></td>
+          <td><%= val.status %></td>
+          <td>
+            <button type="button" kd="<%= val.id %>" onclick="getDetail(this)" class="btn btn-outline-warning btn-sm">Edit</button>
+            <button type="button" kd="<%= val.id %>" onclick="remove(this)" class="btn btn-outline-danger btn-sm">Delete</button>
+          </td>
+        </tr>
+        <% }); %>
+    </tbody>
+  </table>
+  <% if(pagination.totalPage > 1){ %>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <a class="btn btn-outline-dark" <%- pagination.firstPage %> >First</a>
+    <a class="btn btn-outline-dark" <%- pagination.prevPage %> >Prev</a>
+    <a class="btn btn-outline-dark" <%- pagination.nextPage %> >Next</a>
+    <a class="btn btn-outline-dark" <%- pagination.lastPage %> >Last</a>
+  </div>
+  <% } %>
+</main>
+
+<div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="formModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeForm()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div id="container"></div>
+          <div class="form-group">
+            <label for="tanggalForm" class="col-form-label">Tanggal</label>
+            <input type="date" class="form-control" id="tanggalForm" name="tanggalForm">
+            <div id="valid-tanggalForm" class="invalid-feedback"></div>
+          </div>
+          <div class="form-group">
+            <label for="nomorPasienForm" class="col-form-label">Nomor Pasien</label>
+            <input type="text" class="form-control" id="nomorPasienForm" name="nomorPasienForm">
+            <div id="valid-nomorPasienForm" class="invalid-feedback"></div>
+          </div>
+          <div class="form-group">
+            <label for="usiaForm" class="col-form-label">Usia</label>
+            <input type="number" class="form-control" id="usiaForm" name="usiaForm">
+            <div id="valid-usiaForm" class="invalid-feedback"></div>
+          </div>
+          <div class="form-group">
+            <label for="statusForm" class="col-form-label">Status</label>
+            <select class="form-control" id="statusForm" name="statusForm">
+              <option value="">Pilih</option>
+              <% tempStatus.forEach((val)=>{ %>
+                 <option value="<%= val %>"><%= val %></option>
+              <% }); %>
+             
+            </select>
+            <div id="valid-statusForm" class="invalid-feedback"></div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeForm()">Cancel</button>
+        <button type="button" class="btn btn-primary" id="simpanData">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="<%=url%>/assets/js/action.js"></script>
